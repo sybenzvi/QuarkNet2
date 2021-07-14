@@ -1,0 +1,24 @@
+#!/bin/csh
+
+# set port speed
+#stty -F /dev/ttyS1 ospeed 19200 ispeed 19200
+#stty -F /dev/ttyS1 ospeed 9600 ispeed 9600
+
+./cleanup
+./run.e & 
+# need to let this start its queues
+usleep 500000
+./time_sender.e &
+./serial_sender.e &
+./key_sender.e
+./cleanup
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+#!/bin/csh
+set floppy=/mnt/dosfloppy
+set mounted=`df -l | grep -c $floppy `
+if ( $mounted == 0 ) then
+  echo 'floppy '$floppy' not mounted... trying next device'
+  set floppy=/mnt/floppy
+  set mounted=`df -l | grep -c $floppy `
+  if ( $mounted == 0 ) then
+    echo 'floppy '$floppy' not mounted... giving up'
+  endif
+endif
+
+if ( $mounted != 0 ) then
+
+#======================================================================
+# Get the base directory from the invocation of this file via source
+#======================================================================
+        
+    set last = `echo !-1`
+    set thisfile = `echo $last | awk '{print $NF}'`
+    if ($thisfile !~ /*) then
+       set thisfile = $cwd/$thisfile
+    endif
+    set qndir=`echo $thisfile | awk -F/ '{for (i=1;i<=NF-2;i++) printf "%s/",$(i); }'`
+            
+
+######################
+
+    source $qndir/scripts/create-local
+
+    set version=`cat $qndir/scripts/VERSION`
+
+# note that for some obscure reason (DOS format?) execute permissions
+#   don't always get set!!
+
+    cp -a ./.particle-daq/* $floppy
+
+#
+    sync
+    rm -rf ./.particle-daq
+
+endif
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+#!/bin/csh
+
+if ( $#argv == 0) then
+    set flash=/mnt/usbflash
+else
+    set flash=$argv[1]
+endif
+
+set mounted=`df -l | grep -c $flash `
+if ( $mounted == 0 ) then
+  echo 'flashdrive '$flash' not mounted... trying next device'
+  set flash=/mnt/flash
+  set mounted=`df -l | grep -c $flash `
+  if ( $mounted == 0 ) then
+    echo 'flashdrive '$flash' not mounted... giving up'
+  endif
+endif
+
+if ( $mounted != 0 ) then
+
+#======================================================================
+# Get the base directory from the invocation of this file via source
+#======================================================================
+        
+    set last = `echo !-1`
+    set thisfile = `echo $last | awk '{print $NF}'`
+    if ($thisfile !~ /*) then
+       set thisfile = $cwd/$thisfile
+    endif
+    set qndir=`echo $thisfile | awk -F/ '{for (i=1;i<=NF-2;i++) printf "%s/",$(i); }'`
+            
+
+######################
+
+    source $qndir/scripts/create-local
+
+    set target = $flash/particle-daq/
+    set version=`cat $qndir/scripts/VERSION`
+
+    mkdir -p $target
+    cp -a ./.particle-daq/* $target
+
+#
+    sync
+    rm -rf ./.particle-daq
+
+endif
+
+
+
+
+
+

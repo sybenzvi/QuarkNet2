@@ -1,0 +1,25 @@
+#!/bin/csh
+
+set serialDevice = /dev/ttyS1
+if ( -e ~/.particle-port ) then
+  set serialDevice = `cat ~/.particle-port`
+endif
+
+# start independent process listening for serial response;
+#  kill it on exit
+cat -s - < $serialDevice >> Barometer.log &
+onintr killcat
+nohup
+
+set lastcommand = " "
+
+# note: use $lastcommand:q to bundle all words into one variable, separated
+#          by spaces
+
+while ( 1 != 2 )
+    date >> Barometer.log
+    /bin/echo -ne "bt \r" > $serialDevice	
+end
+
+killcat:
+kill %1

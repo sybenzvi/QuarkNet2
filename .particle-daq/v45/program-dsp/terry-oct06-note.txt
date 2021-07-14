@@ -1,0 +1,25 @@
+Date: Mon, 02 Oct 2006 16:49:13 -0500
+From: Terry Kiper <kiper@fnal.gov>
+Subject: Re: Fwd: More Readouts
+To: Kevin.McFarland@rochester.edu
+
+Hi Kevin
+
+The uC code ver 3.4 should be okay.  No changes have been made in any of the data handling routines. 
+I am attaching the altera cpld binary rbf files that we looked at in July.  The new boards Dave is 
+sending will be loaded with (qnettst-dec.rbf 07-22-04 sumcheck=6AEE  (DS COUNTS OK)) that allows DS 
+counts after the 'CD' command.  The 'FR' command will show the sumcheck.  I will try to track down 
+the source files.
+
+qnettst.rbf     01-14-05 sumcheck=5FBD  (NO DS COUNTS)
+qnettst-dec.rbf 07-22-04 sumcheck=6AEE  (DS COUNTS OK)
+
+;   01-12-05  - Ver 3.3 New CMD 'U1' shows uC gps_uart1 rec char errors
+;   01-12-05  - Ver 3.3 Added overrun check on GPS NMEA msg rec size for buffer overrun
+;   04-01-06  - Ver 3.4 Added option to return scalar data line at the Status line output time. (cmd 
+'ST 2')
+
+
+Terry
+
+

@@ -1,0 +1,30 @@
+#!/bin/csh
+
+set sourceDir=~
+set destDir=/mnt/usbflash/balloonFlight
+set stampFile=$destDir/.lastCopyUpdate
+set copyInterval=120
+
+if (! -e $destDir) mkdir $destDir
+
+set findargs = $sourceDir" -maxdepth 1 -type f -mtime 0"
+
+while (1) 
+
+	if (-e $stampFile) then
+		set copyFiles = `find $findargs -newer $stampFile -print`
+	else
+		set copyFiles = `find $findargs -print`
+	endif
+	set theTime = `date +%F--%H-%M-%S`
+	touch $stampFile
+	
+	foreach theFile ($copyFiles)
+		set theFileName = `echo $theFile | awk -F/ '{print $NF}'`
+		cp $theFile $destDir/$theFileName--$theTime
+	end
+	sync
+	sleep $copyInterval
+
+end
+

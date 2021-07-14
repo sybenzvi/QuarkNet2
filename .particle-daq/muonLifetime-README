@@ -1,0 +1,15 @@
+commands for a muon lifetime run 
+
+./loggedSimpleDaq
+
+(reset board)
+
+ss
+ww1
+wc1f
+
+
+wc0 <--- stops the run
+
+MAKE SURE TO SAVE RESULTS BEFORE RE-RUNNING.  SAVED FILE, SimpleDaq.log, is
+overwritten by the loggedSimpleDaq command

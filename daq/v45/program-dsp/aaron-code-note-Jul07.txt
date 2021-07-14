@@ -1,0 +1,49 @@
+From Kevin.McFarland@rochester.edu Wed Jul 11 12:49:51 2007
+Subject: board microcode and CPLD code explanation
+From: Kevin McFarland <Kevin.McFarland@rochester.edu>
+Reply-To: Kevin.McFarland@rochester.edu
+To: Aaron Mislivec <misli002@d.umn.edu>
+Content-Type: text/plain
+X-Evolution-Format: text/plain
+X-Evolution-Account: 0
+X-Evolution-Transport:
+	smtp://ksmcf;auth=PLAIN@mailporter.pas.rochester.edu/;use_ssl=always
+X-Evolution-Fcc: email://local@local/Sent
+Organization: University of Rochester
+X-Mailer: Evolution 2.2.3 (2.2.3-4.fc4) 
+Date: Wed, 11 Jul 2007 12:49:51 -0400
+Message-Id: <1184172591.2570.88.camel@localhost.localdomain>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+Hello Aaron,
+
+OK, so I sat down with Terry Kiper at FNAL and he reminded me of all
+this.  Here's the story.
+
+The output you get when you reset documents the microcode version.
+Nominally we want v3.4, but anything v3.2 or above should be fine.  The
+microcode must be flashed with a special tool.
+
+There is also a programmable logic device (CPLD) that implements most of
+the interface with the serial port and display features on the board.
+The way to figure out what version we are running is to issue a "RF"
+command.  We want boards which report "6AEE".  This is code that we can
+upload locally with only a small risk of failing.
+
+So please check all of our boards for non "6AEE" units as well.
+
+Thanks!
+Kevin
+
+
+
+-- 
+************************************************************************
+Prof. Kevin McFarland               @ FNAL: Fermilab MS 220, PO Box 500
+Department of Physics and Astronomy         Batavia, IL 60510-0500 USA
+RC Box 270171                               Office: WH13W, +1-630-840-3500
+University of Rochester                     FAX:+1-630-840-3614
+Rochester, NY 14627 USA                     
+Office: B&L 416;  +1-585-275-7076, FAX +1-585-276-0018 
+************************************************************************

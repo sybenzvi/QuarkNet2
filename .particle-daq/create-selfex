@@ -1,0 +1,34 @@
+#!/bin/csh
+
+
+#======================================================================
+# Get the base directory from the invocation of this file via source
+#======================================================================
+        
+    set last = `echo !-1`
+    set thisfile = `echo $last | awk '{print $NF}'`
+    if ($thisfile !~ /*) then
+       set thisfile = $cwd/$thisfile
+    endif
+    set qndir=`echo $thisfile | awk -F/ '{for (i=1;i<=NF-2;i++) printf "%s/",$(i); }'`
+      
+
+######################
+
+    source $qndir/scripts/create-local
+    set version=`cat $qndir/scripts/VERSION`
+
+    /bin/rm -f particleDaq-$version.run
+
+    makeself.sh .particle-daq/ particleDaq-$version.run "self-installing PARTICLE program DAQ, http://www.pas.rochester.edu/particle/" ./installDaq
+
+#
+    rm -rf ./.particle-daq
+
+endif
+
+
+
+
+
+

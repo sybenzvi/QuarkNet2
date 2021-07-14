@@ -1,0 +1,22 @@
+#!/bin/csh
+
+# start independent process listening for serial response;
+#  kill it on exit
+cat -s - < /dev/ttyS1 |& tee SimpleDaq.log &
+onintr killcat
+nohup
+
+set lastcommand = " "
+
+# note: use $lastcommand:q to bundle all words into one variable, separated
+#          by spaces
+
+while ( $lastcommand:q != "quit" )
+  set lastcommand = $<:q
+  if ( $lastcommand:q != "quit" ) then
+    /bin/echo -ne "${lastcommand} \r" > /dev/ttyS1	
+  endif
+end
+
+killcat:
+kill %1

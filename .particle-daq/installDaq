@@ -1,0 +1,59 @@
+#!/bin/csh
+
+set version = v45
+
+set daqdir = $HOME/daq/$version
+
+set source=`pwd`
+echo $source/$version
+if ( ! -d $source/$version  ) then
+  source = `pwd`/.particle-daq
+endif
+set mounted = 1
+if ( -d $source/$version && -e $source/installDaq )  then
+  echo 'using local installation files in '$source
+else
+  echo 'looking for installation files on floppy or flash drives'
+  set drive=/mnt/floppy
+  set source=$drive
+  set mounted=`df -l | grep -c $drive `
+  if ( $mounted == 0 ) then
+    echo 'floppy '$drive' not mounted... trying next device'
+    set drive=/mnt/usbflash
+    set source=$drive/particle-daq
+    set mounted=`df -l | grep -c $drive `
+    if ( $mounted == 0 ) then
+      echo 'flashdrive '$drive' not mounted... giving up'
+      exit
+    endif
+  endif
+endif
+
+pushd $HOME
+
+if ( $mounted != 0 ) then
+
+ cp -p $source/startDaq $source/setup.csh $source/simpleDaq $source/copyUpdate .
+ cp -p $source/loggedSimpleDaq $source/separate.csh .
+ cp -p $source/muonLifetime-README .
+ chmod a+x startDaq setup.csh simpleDaq separate.csh loggedSimpleDaq copyUpdate
+
+ mkdir -p $daqdir
+
+ popd
+
+ pushd $daqdir
+
+ cp -pr $source/$version/* .
+ chmod a+x start cleanup
+ find . -exec touch {} \;
+ make clean; make
+
+endif
+
+popd
+
+
+
+
+

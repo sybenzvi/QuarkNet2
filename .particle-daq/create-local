@@ -1,0 +1,46 @@
+#!/bin/csh
+
+echo 'writing an installation copy of the PARTICLE DAQ code into ./.particle-daq'
+
+#======================================================================
+# Get the base directory from the invocation of this file via source
+#======================================================================
+        
+    set last = `echo !-1`
+    set thisfile = `echo $last | awk '{print $NF}'`
+    if ($thisfile !~ /*) then
+       set thisfile = $cwd/$thisfile
+    endif
+    set qndir=`echo $thisfile | awk -F/ '{for (i=1;i<=NF-2;i++) printf "%s/",$(i); }'`
+            
+
+######################
+
+    set version=`cat $qndir/scripts/VERSION`
+    set target=.particle-daq
+
+# note that for some obscure reason (DOS format?) execute permissions
+#   don't get set!!
+
+
+    mkdir -p $target
+    mkdir -p $target/$version
+    mkdir -p $target/$version/program-dsp
+
+    find $qndir -maxdepth 1 -type 'f' -print | grep -v CVS | grep -v '~' | \
+            grep -v '#' | grep -v '\.e' | xargs -i cp -fp {} $target/$version/
+
+    find $qndir/scripts -maxdepth 1 -type 'f' -print | grep -v CVS | \
+            grep -v '~' | grep -v '#' | xargs -i cp -fp {} $target
+
+    find $qndir/program-dsp -maxdepth 1 -type 'f' -print | grep -v CVS | \
+            grep -v '~' | grep -v '#' | xargs -i cp -fp {} $target/$version/program-dsp
+
+
+endif
+
+
+
+
+
+
