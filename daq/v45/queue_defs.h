@@ -5,12 +5,12 @@
  * queue_defs.h - sysV IPC message queue definitions & includes
  */
 
-#ifdef REDHAT7
+// #ifdef REDHAT7
 #include <linux/msg.h>     /* message queue functions and structs. */
-#else
-#include <sys/ipc.h>     /* general SysV IPC structures          */
-#include <sys/msg.h>     /* message queue functions and structs. */
-#endif
+// #else
+// #include <sys/ipc.h>     /* general SysV IPC structures          */
+// #include <sys/msg.h>     /* message queue functions and structs. */
+// #endif
 
 #define QUEUE_ID 137      /* ID of queue to generate.                         */
 #define MAX_MSG_SIZE 200  /* size (in bytes) of largest message we'll send.   */
